@@ -21,8 +21,14 @@ Join our [Discord community](https://discord.gg/frA8rB8ePZ) for support and disc
 
 ## Windows SmartScreen blocks it!
 
-Known issue, the installer is not signed so Windows things it's suspicious. Signing the installer does not _really_ signinify anything
+Known issue, the installer is not signed so Windows thinks it's suspicious. Signing the installer does not _really_ signify anything
 about its safety, but I am working on getting it signed as soon as possible and will release a new version that is signed as soon as I can.
+
+## My anti-virus complains about it!
+
+Unfortunately, due to the way this works, some anti-virus software likes to think it's some kind of virus or malware (technically they are
+not very wrong; this does in fact alter the behavior of an existing program). I don't know a good way around this yet, for now you will
+likely have to tell your anti-virus software to ignore the fact that this is behaving in a suspicious way.
 
 ## The safety of the installer and app
 
@@ -30,10 +36,6 @@ The app is safe; it's source code is entirely public and can be reviewed by anyo
 
 It is also safe as the official releases are built using only software from Github and Microsoft; only public runners and official
 tools from Microsoft etc are used - there can not be even accidental malware unless the official Github runners are infected.
-
-Unfortunately, due to the way this works, some anti-virus software likes to think it's some kind of virus or malware (technically they are
-not very wrong; this does in fact alter the behavior of an existing program). I don't know a good way around this yet, for now you will
-likely have to tell your anti-virus software to ignore the fact that this is behaving in a suspicious way.
 
 ## Safety of hooking into ACC
 
