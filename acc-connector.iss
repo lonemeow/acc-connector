@@ -32,7 +32,9 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "client-gui\bin\Release\net8.0-windows10.0.19041.0\publish\ACC Connector.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "client-gui\bin\Release\net8.0-windows10.0.19041.0\publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "client-gui\bin\Release\net8.0-windows10.0.19041.0\publish\*.json"; DestDir: "{app}"; Flags: ignoreversion
-source: "x64\Release\client-hooks.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "x64\Release\client-hooks.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "minhook\LICENSE.txt"; DestDir: "{app}"; DestName: "THIRD_PARTY_LICENSES.txt"; Flags: ignoreversion
 
 [Registry]
 Root: HKCR; Subkey: "acc-connect"; ValueType: "string"; ValueData: "URL:Custom Protocol"; Flags: uninsdeletekey
