@@ -31,6 +31,10 @@ The app is safe; it's source code is entirely public and can be reviewed by anyo
 It is also safe as the official releases are built using only software from Github and Microsoft; only public runners and official
 tools from Microsoft etc are used - there can not be even accidental malware unless the official Github runners are infected.
 
+Unfortunately, due to the way this works, some anti-virus software likes to think it's some kind of virus or malware (technically they are
+not very wrong; this does in fact alter the behavior of an existing program). I don't know a good way around this yet, for now you will
+likely have to tell your anti-virus software to ignore the fact that this is behaving in a suspicious way.
+
 ## Safety of hooking into ACC
 
 This app uses the same mechanism of hooking into ACC as many other unofficial game mods do; in particular this is the same mechanism as
@@ -51,9 +55,12 @@ the port should be the TCP port of the server (ACC communicates the UDP port thr
 you can add query parameters `persistent=true` to denote that the server is more or less permanently available at the specified address and can
 be saved for future use, and `name=<myservername>` to show a more friendly name.
 
-Here's an example URI that points to a non-existent server but is syntactically valid:
-[acc-connect://my-dummy-server.not-a-real-domain.com:12765/?name=My+dummy+server&persistent=true](acc-connect://my-dummy-server.not-a-real-domain.com:12765/?name=My+dummy+server&persistent=true)
+Here's an example URI that points to a demo server you should be able to join:
+[acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true](acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true)
 
 Many programs such as Discord don't translate arbitrary URI schemes to clickable links; you can use `https://lonemeow.github.io/acc-connector/?target=<acc-connect-uri>`
 as a proxy to get clickable links that simply translate to the custom URI scheme. For your own web pages, it's probably better to just
 use the custom scheme directly in links.
+
+Here's the demo server link in a clickable form:
+[https://lonemeow.github.io/acc-connector/?target=acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true](https://lonemeow.github.io/acc-connector/?target=acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true)
