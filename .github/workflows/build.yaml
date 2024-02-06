@@ -16,7 +16,8 @@ jobs:
         steps:
             - name: Grab version
               run: |
-                TAG=${{ github.event.release.tag_name }}
+                TAG=0.9
+                #TAG=${{ github.event.release.tag_name }}
                 echo "VERSION=${TAG#v}" >> $GITHUB_ENV
               shell: bash
             - name: Checkout
@@ -33,4 +34,4 @@ jobs:
                   msbuild /property:Configuration=Release /t:publish
             - name: Create installer
               run: |
-                  "%programfiles(x86)%\\Inno Setup 6\\iscc.exe" acc-connector.iss /DAppVer=${{ env.VERSION }}
+                  & "%programfiles(x86)%/Inno Setup 6/iscc.exe" acc-connector.iss /DAppVer=${{ env.VERSION }}
