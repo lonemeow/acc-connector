@@ -22,6 +22,8 @@ function redirect() {
         if (name) {
             url.searchParams.set('name', name);
             linkText = `${name} (${hostname}:${port})`;
+        } else {
+            linkText = `${hostname}:${port}`;
         }
         if (persistent) {
             url.searchParams.set('persistent', persistent);
