@@ -31,8 +31,12 @@ jobs:
         name: Upload installer
         runs-on: windows-latest
         steps:
-            - name: Upload installer
+            - name: Download installer
+              uses: actions/download-artifact@v4
+              with:
+                name: app_installer
+            - name: Upload installer to release
               run: |
-                gh release upload ${{ github.event.release.tag_name }} Output/ACC-Connector-Setup-${{ needs.version.outputs.version }}.exe
+                gh release upload ${{ github.event.release.tag_name }} ACC-Connector-Setup-${{ needs.version.outputs.version }}.exe
               env:
                 GH_TOKEN: ${{ github.token }}

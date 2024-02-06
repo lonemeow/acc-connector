@@ -26,3 +26,8 @@ jobs:
               run: |
                 "%programfiles(x86)%/Inno Setup 6/iscc.exe" acc-connector.iss /DAppVer=${{ inputs.app_version }}
               shell: cmd
+            - name: Upload installer
+              uses: actions/upload-artifact@v4
+              with:
+                name: app_installer
+                path: Output/ACC-Connector-Setup-${{ inputs.app_version }}.exe
