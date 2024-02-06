@@ -89,7 +89,6 @@ namespace ACCConnector {
             var serverData = Array.Empty<byte>();
             serverList.ListChanged += (sender, e) => {
                 SaveServerList(serverList);
-                MemoryStream s;
                 lock (serverDataLock) {
                     serverData = BuildServerData(serverList);
                 }
