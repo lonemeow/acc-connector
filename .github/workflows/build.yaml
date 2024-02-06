@@ -2,9 +2,9 @@ name: ACC Connector release
 
 on: push
 
-#on:
-#    release:
-#        types: [published]
+on:
+    release:
+        types: [published]
 
 permissions:
     contents: write
@@ -16,8 +16,7 @@ jobs:
         steps:
             - name: Grab version
               run: |
-                TAG=0.9
-                #TAG=${{ github.event.release.tag_name }}
+                TAG=${{ github.event.release.tag_name }}
                 echo "VERSION=${TAG#v}" >> $GITHUB_ENV
               shell: bash
             - name: Checkout
@@ -36,3 +35,6 @@ jobs:
               run: |
                   "%programfiles(x86)%/Inno Setup 6/iscc.exe" acc-connector.iss /DAppVer=${{ env.VERSION }}
               shell: cmd
+            - name: Upload installer
+              run: |
+                gh release upload ${{github.event.release.tag_name}} Output/ACC-Connector-Setup-${{ env.VERSION }}.exe
