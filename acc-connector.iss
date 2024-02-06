@@ -4,7 +4,7 @@
 #define AppExeName "ACC Connector.exe"
 
 [Setup]
-AppId={51604B81-B031-42E3-B3D1-35440A387EBD}
+AppId={{51604B81-B031-42E3-B3D1-35440A387EBD}
 AppName={#AppName}
 AppVersion={#AppVer}
 AppPublisher={#AppPublisher}
