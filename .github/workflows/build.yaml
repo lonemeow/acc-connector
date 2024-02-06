@@ -1,7 +1,5 @@
 name: ACC Connector release
 
-on: push
-
 on:
     release:
         types: [published]
