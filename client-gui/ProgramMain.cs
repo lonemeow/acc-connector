@@ -90,14 +90,15 @@ namespace ACCConnector {
             var serverData = Array.Empty<byte>();
             serverList.ListChanged += (sender, e) => {
                 SaveServerList(serverList);
-                using var s = new MemoryStream();
-                foreach (var server in serverList) {
-                    server.Write(s);
-                }
+                MemoryStream s;
                 lock (serverDataLock) {
-                    serverData = s.ToArray();
+                    serverData = BuildServerData(serverList);
                 }
             };
+
+            lock (serverDataLock) {
+                serverData = BuildServerData(serverList);
+            }
 
             using var cancelSource = new CancellationTokenSource();
             var pipeThread = new Thread(async () => {
@@ -127,6 +128,14 @@ namespace ACCConnector {
 
             cancelSource.Cancel();
             pipeThread.Join();
+        }
+
+        private static byte[] BuildServerData(BindingList<ServerInfo> serverList) {
+            var s = new MemoryStream();
+            foreach (var server in serverList) {
+                server.Write(s);
+            }
+            return s.ToArray();
         }
 
         private static BindingList<ServerInfo> LoadServerList() {

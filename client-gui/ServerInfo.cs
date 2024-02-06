@@ -62,8 +62,8 @@ namespace ACCConnector {
             stream.Write(serverNameBuffer);
             stream.WriteByte((byte)serverNameLenBytes);
             stream.Write(ip);
-            stream.WriteByte((byte)port);
             stream.WriteByte((byte)(port >> 8));
+            stream.WriteByte((byte)port);
         }
     }
 }
