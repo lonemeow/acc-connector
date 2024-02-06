@@ -59,8 +59,8 @@ Here's an example URI that points to a demo server you should be able to join:
 [acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true](acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true)
 
 Many programs such as Discord don't translate arbitrary URI schemes to clickable links; you can use `https://lonemeow.github.io/acc-connector/?target=<acc-connect-uri>`
-as a proxy to get clickable links that simply translate to the custom URI scheme. For your own web pages, it's probably better to just
-use the custom scheme directly in links.
+as a proxy to get clickable links that simply translate to the custom URI scheme (note: you need to URL encode the target URI!). For your
+own web pages, it's probably better to just use the custom scheme directly in links.
 
 Here's the demo server link in a clickable form:
-[https://lonemeow.github.io/acc-connector/?target=acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true](https://lonemeow.github.io/acc-connector/?target=acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true)
+[https://lonemeow.github.io/acc-connector/?target=acc-connect%3A%2F%2F18.217.125.33%3A9911%2F%3Fname%3DDemo%2Bserver%26persistent%3Dtrue](https://lonemeow.github.io/acc-connector/?target=acc-connect%3A%2F%2F18.217.125.33%3A9911%2F%3Fname%3DDemo%2Bserver%26persistent%3Dtrue)
