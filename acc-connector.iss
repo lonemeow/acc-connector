@@ -1,13 +1,12 @@
 #define AppName "ACC Connector"
-#define AppVersion "1.0"
 #define AppPublisher "Ilpo Ruotsalainen"
 #define AppURL "https://github.com/lonemeow/acc-connector"
 #define AppExeName "ACC Connector.exe"
 
 [Setup]
-AppId={{51604B81-B031-42E3-B3D1-35440A387EBD}
+AppId={51604B81-B031-42E3-B3D1-35440A387EBD}
 AppName={#AppName}
-AppVersion={#AppVersion}
+AppVersion={#AppVer}
 AppPublisher={#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppURL}
@@ -29,9 +28,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "client-gui\bin\Release\net8.0-windows10.0.19041.0\publish\ACC Connector.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "client-gui\bin\Release\net8.0-windows10.0.19041.0\publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "client-gui\bin\Release\net8.0-windows10.0.19041.0\publish\*.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "client-gui\publish\ACC Connector.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "client-gui\publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "client-gui\publish\*.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "x64\Release\client-hooks.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "minhook\LICENSE.txt"; DestDir: "{app}"; DestName: "THIRD_PARTY_LICENSES.txt"; Flags: ignoreversion
