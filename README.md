@@ -48,18 +48,18 @@ If you are a software developer, you can help by contributing pull requests that
 You can also help by making sure you let the server providers, league managers and other parties know you want them to publish ACC
 Connector links for their servers!
 
-# Creating URIs for ACC Connector
+# Creating URLs for ACC Connector
 
-The application adds a custom URI handler for URIs with a scheme of `acc-connector`. The hostname part can be either IP or DNS name, and
+The application adds a custom URI handler for URIs with a scheme of `acc-connect`. The hostname part can be either IP or DNS name, and
 the port should be the TCP port of the server (ACC communicates the UDP port through the TCP connection once established). Additionally,
 you can add query parameters `persistent=true` to denote that the server is more or less permanently available at the specified address and can
 be saved for future use, and `name=<myservername>` to show a more friendly name.
 
-Here's an example URI that points to a demo server you should be able to join:
+Here's an example URL that points to a demo server you should be able to join:
 [acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true](acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true)
 
-Many programs such as Discord don't translate arbitrary URI schemes to clickable links; you can use `https://lonemeow.github.io/acc-connector/?target=<acc-connect-uri>`
-as a proxy to get clickable links that simply translate to the custom URI scheme (note: you need to URL encode the target URI!). For your
+Many programs such as Discord don't translate arbitrary URL schemes to clickable links; you can use `https://lonemeow.github.io/acc-connector/?target=<acc-connect-url>`
+as a proxy to get clickable links that simply translate to the custom URL scheme (note: you need to URL encode the target URL!). For your
 own web pages, it's probably better to just use the custom scheme directly in links.
 
 Here's the demo server link in a clickable form:
