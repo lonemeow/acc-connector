@@ -25,7 +25,7 @@ jobs:
         name: Build app
         uses: ./.github/workflows/build.yaml
         with:
-            version: ${{ needs.version.outputs.version }}
+            app_version: ${{ needs.version.outputs.version }}
     release:
         needs: [version, build]
         name: Upload installer
