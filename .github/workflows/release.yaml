@@ -1,3 +1,5 @@
+name: Build and upload release
+
 on:
     release:
         types: [published]
