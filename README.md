@@ -15,7 +15,7 @@ No more! ACC Connector allows direct IP based connection to any server.
 
 # Community
 
-Join our [Discord community](https://discord.gg/pKH62UTJXR) for support and discussion.
+Join our [Discord community](https://discord.gg/frA8rB8ePZ) for support and discussion.
 
 # Is this safe to use?
 
