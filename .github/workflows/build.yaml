@@ -35,4 +35,4 @@ jobs:
               shell: cmd
             - name: Upload installer
               run: |
-                gh release upload ${{github.event.release.tag_name}} Output/ACC-Connector-Setup-${{ env.VERSION }}.exe
+                gh release upload ${{ github.event.release.tag_name }} Output/ACC-Connector-Setup-${{ env.VERSION }}.exe
