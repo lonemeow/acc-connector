@@ -1,12 +1,20 @@
 <html>
 <head>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const target = urlParams.get('target');
-        document.write("<a href=$target>Add server</a>");
-        document.querySelector('[href^="acc-connector"]').click();
+        function redirect() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const target = urlParams.get('target');
+            alert(target);
+            const link = document.querySelector('a');
+            alert(link);
+            link.textContent = "Add $target";
+            link.href = target;
+            link.click();
+        }
+        window.onload = redirect;
     </script>
 </head>
 <body>
+    <a>Add server</a>
 </body>
 </html>
