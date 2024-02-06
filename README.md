@@ -52,4 +52,8 @@ you can add query parameters `persistent=true` to denote that the server is more
 be saved for future use, and `name=<myservername>` to show a more friendly name.
 
 Here's an example URI that points to a non-existent server but is syntactically valid:
-[acc-connector://my-dummy-server.not-a-real-domain.com:12765/?name=My+dummy+server&persistent=true](acc-connector://my-dummy-server.not-a-real-domain.com:12765/?name=My+dummy+server&persistent=true)
+[acc-connect://my-dummy-server.not-a-real-domain.com:12765/?name=My+dummy+server&persistent=true](acc-connect://my-dummy-server.not-a-real-domain.com:12765/?name=My+dummy+server&persistent=true)
+
+Many programs such as Discord don't translate arbitrary URI schemes to clickable links; you can use `https://lonemeow.github.io/acc-connector/?target=<acc-connect-uri>`
+as a proxy to get clickable links that simply translate to the custom URI scheme. For your own web pages, it's probably better to just
+use the custom scheme directly in links.

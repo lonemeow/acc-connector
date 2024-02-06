@@ -4,10 +4,8 @@
         function redirect() {
             const urlParams = new URLSearchParams(window.location.search);
             const target = urlParams.get('target');
-            alert(target);
             const link = document.querySelector('a');
-            alert(link);
-            link.textContent = "Add $target";
+            link.textContent = `Add ${target}`;
             link.href = target;
             link.click();
         }
