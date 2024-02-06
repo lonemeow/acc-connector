@@ -38,3 +38,13 @@ If you are a software developer, you can help by contributing pull requests that
 
 You can also help by making sure you let the server providers, league managers and other parties know you want them to publish ACC
 Connector links for their servers!
+
+# Creating URIs for ACC Connector
+
+The application adds a custom URI handler for URIs with a scheme of `acc-connector`. The hostname part can be either IP or DNS name, and
+the port should be the TCP port of the server (ACC communicates the UDP port through the TCP connection once established). Additionally,
+you can add query parameters `persistent=true` to denote that the server is more or less permanently available at the specified address and can
+be saved for future use, and `name=<myservername>` to show a more friendly name.
+
+Here's an example URI that points to a non-existent server but is syntactically valid:
+[acc-connector://my-dummy-server.not-a-real-domain.com:12765/?name=My+dummy+server&persistent=true](acc-connector://my-dummy-server.not-a-real-domain.com:12765/?name=My+dummy+server&persistent=true)
