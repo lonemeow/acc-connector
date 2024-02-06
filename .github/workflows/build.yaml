@@ -25,6 +25,9 @@ jobs:
                 submodules: 'true'
             - name: Setup MSBuild
               uses: microsoft/setup-msbuild@v2
+            - name: Dotnet restore
+              run: |
+                  dotnet restore
             - name: Build app
               run: |
                   msbuild /property:Configuration=Release /t:publish
