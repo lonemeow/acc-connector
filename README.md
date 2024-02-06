@@ -1,1 +1,40 @@
-# acc-connector
+# ACC Connector
+
+Are you tired of being unable to play your favourite racing simulator because the lobby servers are down?
+No more! ACC Connector allows direct IP based connection to any server.
+
+# How to use
+
+1. Download the installer from https://github.com/lonemeow/acc-connector/releases
+1. Install the app
+1. Click `Install hook` to have the hook installed into your ACC
+1. Add a server or click on an ACC Connector server link
+1. Start ACC
+1. Click `LAN SERVERS`
+1. Join the server
+
+# Community
+
+Join our [Discord community](https://discord.gg/pKH62UTJXR) for support and discussion.
+
+# Is this safe to use?
+
+## The safety of the installer and app
+
+The app is safe; it's source code is entirely public and can be reviewed by anyone with the skills to understand C++ and C# code.
+
+It is also safe as the official releases are built using only software from Github and Microsoft; only public runners and official
+tools from Microsoft etc are used - there can not be even accidental malware unless the official Github runners are infected.
+
+## Safety of hooking into ACC
+
+This app uses the same mechanism of hooking into ACC as many other unofficial game mods do; in particular this is the same mechanism as
+Custom Shaders Patch for the older Assetto Corsa game uses. Some anti virus software _might_ flag this as suspicious and there is nothing
+we can do about that.
+
+# How can I help?
+
+If you are a software developer, you can help by contributing pull requests that fix bugs or add features.
+
+You can also help by making sure you let the server providers, league managers and other parties know you want them to publish ACC
+Connector links for their servers!
