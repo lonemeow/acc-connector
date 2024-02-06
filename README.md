@@ -19,6 +19,11 @@ Join our [Discord community](https://discord.gg/pKH62UTJXR) for support and disc
 
 # Is this safe to use?
 
+## Windows SmartScreen blocks it!
+
+Known issue, the installer is not signed so Windows things it's suspicious. Signing the installer does not _really_ signinify anything
+about its safety, but I am working on getting it signed as soon as possible and will release a new version that is signed as soon as I can.
+
 ## The safety of the installer and app
 
 The app is safe; it's source code is entirely public and can be reviewed by anyone with the skills to understand C++ and C# code.
