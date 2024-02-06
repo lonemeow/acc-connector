@@ -36,3 +36,5 @@ jobs:
             - name: Upload installer
               run: |
                 gh release upload ${{ github.event.release.tag_name }} Output/ACC-Connector-Setup-${{ env.VERSION }}.exe
+              env:
+                GH_TOKEN: ${{ github.token }}
