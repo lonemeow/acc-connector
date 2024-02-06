@@ -40,7 +40,6 @@ namespace ACCConnector {
             if (!User32.EnumWindows(delegate (IntPtr hWnd, IntPtr lParam) {
                 if (User32.GetWindowLongPtr(hWnd, User32.GWLP_USERDATA) == Constants.TAG) {
                     existingWindowHandle = hWnd;
-                    return false;
                 }
                 return true;
             }, IntPtr.Zero)) {
