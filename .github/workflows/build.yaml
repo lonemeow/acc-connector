@@ -24,6 +24,8 @@ jobs:
             - name: Setup MSBuild
               uses: microsoft/setup-msbuild@v2
             - name: Build app
-              run: msbuild /property:Configuration=Release /t:publish
+              run: |
+                  msbuild /property:Configuration=Release /t:publish
             - name: Create installer
-              run: "%programfiles(x86)%\Inno Setup 6\iscc.exe" acc-connector.iss /DAppVer=${{ env.VERSION }}
+              run: |
+                  "%programfiles(x86)%\\Inno Setup 6\\iscc.exe" acc-connector.iss /DAppVer=${{ env.VERSION }}
