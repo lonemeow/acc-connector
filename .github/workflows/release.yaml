@@ -1,0 +1,36 @@
+on:
+    release:
+        types: [published]
+
+permissions:
+    contents: write
+
+jobs:
+    version:
+        name: Set up release version
+        runs-on: windows-latest
+        steps:
+            - id: version
+              name: Grab version
+              run: |
+                TAG=${{ github.event.release.tag_name }}
+                echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+              shell: bash
+        outputs:
+            version: ${{ steps.version.outputs.version }}
+    build:
+        needs: version
+        name: Build app
+        uses: ./.github/workflows/build.yaml
+        with:
+            version: ${{ needs.version.outputs.version }}
+    release:
+        needs: [version, build]
+        name: Upload installer
+        runs-on: windows-latest
+        steps:
+            - name: Upload installer
+              run: |
+                gh release upload ${{ github.event.release.tag_name }} Output/ACC-Connector-Setup-${{ needs.version.outputs.version }}.exe
+              env:
+                GH_TOKEN: ${{ github.token }}
