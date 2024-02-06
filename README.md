@@ -57,12 +57,9 @@ the port should be the TCP port of the server (ACC communicates the UDP port thr
 you can add query parameters `persistent=true` to denote that the server is more or less permanently available at the specified address and can
 be saved for future use, and `name=<myservername>` to show a more friendly name.
 
-Here's an example URL that points to a demo server you should be able to join:
-[acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true](acc-connect://18.217.125.33:9911/?name=Demo+server&persistent=true)
+Since many programs such as Discord won't show unknown protocol links as clickable, it's best to create links using a redirect page. This
+repository hosts such, use links in format `https://lonemeow.github.io/acc-connector/?hostname=<hostname_or_ip>&port=<tcp_port>&name=<server_name>&persistent=<persistent>`
+to create redirects (`name` and `persistent` are of course optional and should only be used if appropriate).
 
-Many programs such as Discord don't translate arbitrary URL schemes to clickable links; you can use `https://lonemeow.github.io/acc-connector/?target=<acc-connect-url>`
-as a proxy to get clickable links that simply translate to the custom URL scheme (note: you need to URL encode the target URL!). For your
-own web pages, it's probably better to just use the custom scheme directly in links.
-
-Here's the demo server link in a clickable form:
-[https://lonemeow.github.io/acc-connector/?target=acc-connect%3A%2F%2F18.217.125.33%3A9911%2F%3Fname%3DDemo%2Bserver%26persistent%3Dtrue](https://lonemeow.github.io/acc-connector/?target=acc-connect%3A%2F%2F18.217.125.33%3A9911%2F%3Fname%3DDemo%2Bserver%26persistent%3Dtrue)
+Here's a demo server link in clickable form: 
+https://lonemeow.github.io/acc-connector/?hostname=18.217.125.33&port=9911&name=Demo+server&persistent=true

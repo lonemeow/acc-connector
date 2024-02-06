@@ -1,16 +1,6 @@
 <html>
 <head>
-    <script>
-        function redirect() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const target = urlParams.get('target');
-            const link = document.querySelector('a');
-            link.textContent = `Add ${target}`;
-            link.href = target;
-            link.click();
-        }
-        window.onload = redirect;
-    </script>
+    <script src="linkmaker.js"></script>
 </head>
 <body>
     <a>Add server</a>
