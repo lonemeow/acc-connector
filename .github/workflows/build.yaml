@@ -21,6 +21,8 @@ jobs:
               shell: bash
             - name: Checkout
               uses: actions/checkout@v2
+              with:
+                submodules: 'true'
             - name: Setup MSBuild
               uses: microsoft/setup-msbuild@v2
             - name: Build app
