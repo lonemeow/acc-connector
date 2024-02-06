@@ -1,0 +1,29 @@
+name: ACC Connector release
+
+on: push
+
+#on:
+#    release:
+#        types: [published]
+
+permissions:
+    contents: write
+
+jobs:
+    release:
+        name: Build release tag
+        runs-on: windows-latest
+        steps:
+            - name: Grab version
+              run: |
+                TAG=${{ github.event.release.tag_name }}
+                echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+              shell: bash
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Setup MSBuild
+              uses: microsoft/setup-msbuild@v2
+            - name: Build app
+              run: msbuild /property:Configuration=Release /t:publish
+            - name: Create installer
+              run: "%programfiles(x86)%\Inno Setup 6\iscc.exe" acc-connector.iss /DAppVer=${{ env.VERSION }}
