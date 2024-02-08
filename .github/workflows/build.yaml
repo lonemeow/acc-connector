@@ -6,7 +6,7 @@ on:
             app_version:
                 description: Version of the application
                 type: string
-                default: "0.0"
+                default: "0.0.0"
 
 jobs:
     build:
