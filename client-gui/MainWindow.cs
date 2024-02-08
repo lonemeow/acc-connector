@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using Win32;
@@ -20,6 +19,7 @@ namespace ACCConnector {
             User32.SetWindowLongPtr(Handle, User32.GWLP_USERDATA, Constants.TAG);
 
             base.OnLoad(e);
+            CheckHookVersion();
             UpdateHookButton();
         }
 
@@ -49,6 +49,31 @@ namespace ACCConnector {
             }
         }
 
+        private void CheckHookVersion() {
+            if (ACCHook.IsHookOutdated(settings.AccInstallPath)) {
+                var msg = """
+                    Hook from a different version of ACC Connector seems to be installed.
+                    Do you want to replace it with the hook from this version?
+                    """;
+                if (MessageBox.Show(msg, "ACC Connector", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
+                    InstallHook();
+                }
+            }
+        }
+
+        private void InstallHook() {
+            if (ACCHook.IsACCRunning()) {
+                var message = """
+                        ACC seems to be running.
+                        The hook may fail to install, and even if it succceeds it won't take effect until you restart the game.
+                        """;
+                if (MessageBox.Show(message, "ACC Connector", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel) {
+                    return;
+                }
+            }
+            ACCHook.InstallHook(settings.AccInstallPath);
+        }
+
         private void UpdateHookButton() {
             if (ACCHook.IsHookInstalled(settings.AccInstallPath)) {
                 hookButton.Text = "Remove\nhook";
@@ -70,6 +95,7 @@ namespace ACCConnector {
             if (settingsDialog.ShowDialog() == DialogResult.OK) {
                 settings = tempSettings;
                 Settings.Save(settings);
+                UpdateHookButton();
             }
         }
 
@@ -94,16 +120,7 @@ namespace ACCConnector {
             if (ACCHook.IsHookInstalled(settings.AccInstallPath)) {
                 ACCHook.RemoveHook(settings.AccInstallPath);
             } else {
-                if (ACCHook.IsACCRunning()) {
-                    var message = """
-                        ACC seems to be running.
-                        The hook may fail to install, and even if it succceeds it won't take effect until you restart the game.
-                        """;
-                    if (MessageBox.Show(message, "ACC Connector", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel) {
-                        return;
-                    }
-                }
-                ACCHook.InstallHook(settings.AccInstallPath);
+                InstallHook();
             }
             UpdateHookButton();
         }

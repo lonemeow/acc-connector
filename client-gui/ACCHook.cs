@@ -95,6 +95,16 @@ namespace ACCConnector {
             return File.Exists(InstallPathToDllPath(accInstallPath));
         }
 
+        public static bool IsHookOutdated(string accInstallPath) {
+            if (IsHookInstalled(accInstallPath)) {
+                var myInfo = FileVersionInfo.GetVersionInfo(FindHookDLL());
+                var verInfo = FileVersionInfo.GetVersionInfo(InstallPathToDllPath(accInstallPath));
+                Trace.WriteLine($"Installed hook version: {verInfo.ProductVersion} my version {myInfo.ProductVersion}");
+                return myInfo.ProductVersion != verInfo.ProductVersion;
+            }
+            return false;
+        }
+
         private static string InstallPathToDllPath(string accInstallPath) {
             return Path.Join(accInstallPath, "AC2", "Binaries", "Win64", "hid.dll");
         }
@@ -107,7 +117,7 @@ namespace ACCConnector {
 
         public static void InstallHook(string accInstallPath) {
             var dllPath = InstallPathToDllPath(accInstallPath);
-            File.Copy(FindHookDLL(), dllPath);
+            File.Copy(FindHookDLL(), dllPath, true);
             Trace.WriteLine($"Copied hook DLL to {dllPath}");
         }
     }

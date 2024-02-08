@@ -19,6 +19,9 @@ jobs:
                 submodules: 'true'
             - name: Setup MSBuild
               uses: microsoft/setup-msbuild@v2
+            - name: Update DLL version
+              run: |
+                client-hooks/makever.ps1 ${{ inputs.app_version }} client-hooks/version.h
             - name: Build app
               run: |
                 msbuild /t:publish /restore /p:PublishProfile=FolderProfile /property:Configuration=Release
