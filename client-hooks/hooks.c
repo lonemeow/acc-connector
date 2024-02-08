@@ -65,10 +65,10 @@ cleanup:
     CloseHandle(hPipe);
 }
 
-int my_sendto(SOCKET s, const char* buf, int len, int flags, const struct sockaddr* to, int tolen) {
+int my_sendto(SOCKET s, const unsigned char* buf, int len, int flags, const struct sockaddr* to, int tolen) {
     if (to->sa_family == AF_INET && tolen >= sizeof(struct sockaddr_in)) {
         struct sockaddr_in* sin = (struct sockaddr_in*)to;
-        if (sin->sin_addr.S_un.S_addr == INADDR_BROADCAST && sin->sin_port == _byteswap_ushort(ACC_DISCOVERY_PORT) && len == 6) {
+        if (sin->sin_port == _byteswap_ushort(ACC_DISCOVERY_PORT) && len == 6 && buf[0] == 0xbf && buf[1] == 0x48) {
             log_msg(L"Discovery packet detected with id %d", discoveryId);
             handle_discovery(s, buf[2]);
         }
