@@ -28,12 +28,12 @@ int (*real_sendto)(SOCKET, const char*, int, int, const struct sockaddr*, int);
 int (*real_recvfrom)(SOCKET, char*, int, int, struct sockaddr*, int*);
 
 SOCKET discoverySocket = -1;
-int discoveryId = -1;
+DWORD discoveryId = -1;
 int discoveryServerIdx = -1;
 
 struct shared_memory shm;
 
-void handle_discovery(SOCKET s, int id) {
+void handle_discovery(SOCKET s, DWORD id) {
     discoverySocket = s;
     discoveryId = id;
     discoveryServerIdx = 0;
@@ -69,8 +69,12 @@ int my_sendto(SOCKET s, const unsigned char* buf, int len, int flags, const stru
     if (to->sa_family == AF_INET && tolen >= sizeof(struct sockaddr_in)) {
         struct sockaddr_in* sin = (struct sockaddr_in*)to;
         if (sin->sin_port == _byteswap_ushort(ACC_DISCOVERY_PORT) && len == 6 && buf[0] == 0xbf && buf[1] == 0x48) {
-            log_msg(L"Discovery packet detected with id %d", discoveryId);
-            handle_discovery(s, buf[2]);
+            discoveryId  = ((DWORD)buf[2]);
+            discoveryId |= ((DWORD)buf[3]) << 8;
+            discoveryId |= ((DWORD)buf[4]) << 16;
+            discoveryId |= ((DWORD)buf[5]) << 24;
+            log_msg(L"Discovery packet detected with id %u", discoveryId);
+            handle_discovery(s, discoveryId);
         }
     }
     return real_sendto(s, buf, len, flags, to, tolen);
@@ -96,11 +100,12 @@ int build_packet(struct server_entry* server, UINT8* buf, int len) {
 
     buf[off++] = (server->port >> 8) & 0xff;
     buf[off++] = server->port & 0xff;
-    buf[off++] = discoveryId & 0xff;
 
-    buf[off++] = 0x00;
-    buf[off++] = 0x00;
-    buf[off++] = 0x00;
+    buf[off++] = discoveryId & 0xff;
+    buf[off++] = (discoveryId >> 8) & 0xff;
+    buf[off++] = (discoveryId >> 16) & 0xff;
+    buf[off++] = (discoveryId >> 24) & 0xff;
+
     buf[off++] = 0xfa;
 
     return off;
