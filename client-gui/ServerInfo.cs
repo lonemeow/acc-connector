@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ACCConnector {
     public class ServerInfo(string? name, string hostname, IPAddress? address, ushort port, bool persistent) {
-        private const int MAX_SERVER_NAME_LEN_CHARS = 64;
+        private const int MAX_SERVER_NAME_LEN_CHARS = 256;
 
         public string DisplayName {
             get {
@@ -66,8 +66,9 @@ namespace ACCConnector {
             if (Address == null) {
                 return;
             }
+            var serverName = DisplayName[..Math.Min(MAX_SERVER_NAME_LEN_CHARS, DisplayName.Length)];
             var serverNameBuffer = new byte[MAX_SERVER_NAME_LEN_CHARS * 4];
-            var serverNameLenBytes = Encoding.UTF32.GetBytes(DisplayName, serverNameBuffer);
+            var serverNameLenBytes = Encoding.UTF32.GetBytes(serverName, serverNameBuffer);
             var ip = Address.GetAddressBytes();
             var port = Port;
 
