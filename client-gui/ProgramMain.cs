@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO.Pipes;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -172,6 +173,11 @@ namespace ACCConnector {
                 """;
             MessageBox.Show(description, "ACC Connector has crashed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             Debug.Write($"Unhandled exception:\n{description}");
+        }
+
+        public static string GetMyVersion() {
+            var ver = Assembly.GetExecutingAssembly().GetName().Version!;
+            return $"{ver.Major}.{ver.Minor}.{ver.Build}";
         }
     }
 }

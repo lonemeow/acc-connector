@@ -24,7 +24,7 @@ jobs:
                 client-hooks/makever.ps1 ${{ inputs.app_version }} client-hooks/version.h
             - name: Build app
               run: |
-                msbuild /t:publish /restore /p:PublishProfile=FolderProfile /property:Configuration=Release
+                msbuild /t:publish /restore /p:PublishProfile=FolderProfile /property:Configuration=Release;Version=${{ inputs.app_version }}
             - name: Create installer
               run: |
                 "%programfiles(x86)%/Inno Setup 6/iscc.exe" acc-connector.iss /DAppVer=${{ inputs.app_version }}
