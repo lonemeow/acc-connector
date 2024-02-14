@@ -109,6 +109,9 @@ namespace ACCConnector {
         private void ServerListBox_Format(object sender, ListControlConvertEventArgs e) {
             var item = (ServerInfo)e.ListItem!;
             var sb = new StringBuilder();
+            if (item.Address == null) {
+                sb.Append('\u26a0');
+            }
             if (item.Persistent) {
                 sb.Append('\u2605');
             }

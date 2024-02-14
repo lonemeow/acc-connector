@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Web;
 
 namespace ACCConnector {
-    public class ServerInfo(string? name, string hostname, IPAddress address, ushort port, bool persistent) {
+    public class ServerInfo(string? name, string hostname, IPAddress? address, ushort port, bool persistent) {
         private const int MAX_SERVER_NAME_LEN_CHARS = 64;
 
         public string DisplayName {
@@ -18,7 +20,7 @@ namespace ACCConnector {
 
         public string? Name => name;
         public readonly string Hostname = hostname;
-        public readonly IPAddress Address = address;
+        public readonly IPAddress? Address = address;
         public readonly ushort Port = port;
         public readonly bool Persistent = persistent;
 
@@ -33,7 +35,14 @@ namespace ACCConnector {
             var name = queryParams["name"];
             var persistent = queryParams["persistent"] == "true";
 
-            return new ServerInfo(name, hostname, Dns.GetHostAddresses(hostname)[0], (ushort)port, persistent);
+            IPAddress? address = null;
+            try {
+                address = Dns.GetHostAddresses(hostname)[0];
+            } catch (SocketException e) {
+                Trace.WriteLine($"Failed to resolve hostname \"{hostname}\": {e.Message}");
+            }
+
+            return new ServerInfo(name, hostname, address, (ushort)port, persistent);
         }
 
         public Uri ToUri() {
@@ -54,6 +63,9 @@ namespace ACCConnector {
         }
 
         public void Write(Stream stream) {
+            if (Address == null) {
+                return;
+            }
             var serverNameBuffer = new byte[MAX_SERVER_NAME_LEN_CHARS * 4];
             var serverNameLenBytes = Encoding.UTF32.GetBytes(DisplayName, serverNameBuffer);
             var ip = Address.GetAddressBytes();
