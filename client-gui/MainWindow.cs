@@ -13,6 +13,7 @@ namespace ACCConnector {
             this.settings = settings;
             InitializeComponent();
             serverListBox.DataSource = serverList;
+            this.Text = "ACC Connector " + ProgramMain.GetMyVersion();
         }
 
         protected override void OnLoad(EventArgs e) {
