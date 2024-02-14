@@ -4,7 +4,7 @@ using System.Web;
 
 namespace ACCConnector {
     public class ServerInfo(string? name, string hostname, IPAddress address, ushort port, bool persistent) {
-        private const int MAX_SERVER_NAME_LEN_CHARS = 64;
+        private const int MAX_SERVER_NAME_LEN_CHARS = 256;
 
         public string DisplayName {
             get {

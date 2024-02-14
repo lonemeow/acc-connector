@@ -8,7 +8,7 @@
 
 #define NAMED_PIPE_NAME L"\\\\.\\pipe\\acc-connector-pipe"
 #define MAX_SERVER_ENTRIES 100
-#define MAX_SERVER_NAME_LEN 64
+#define MAX_SERVER_NAME_LEN 256
 #define MAX_SERVER_NAME_LEN_BYTES (MAX_SERVER_NAME_LEN * 4)
 
 #pragma pack(push, 1)
