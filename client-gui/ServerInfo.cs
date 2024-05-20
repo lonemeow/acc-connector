@@ -73,7 +73,7 @@ namespace ACCConnector {
             var port = Port;
 
             stream.Write(serverNameBuffer);
-            stream.WriteByte((byte)serverNameLenBytes);
+            stream.WriteByte((byte)serverName.Length);
             stream.Write(ip);
             stream.WriteByte((byte)(port >> 8));
             stream.WriteByte((byte)port);
