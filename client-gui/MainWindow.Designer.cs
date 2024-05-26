@@ -23,13 +23,16 @@
         ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             addServerButton = new Button();
             removeServerButton = new Button();
-            serverListBox = new ListBox();
             tableLayout = new TableLayoutPanel();
             settingsButton = new Button();
             hookButton = new Button();
+            serverListView = new DataGridView();
+            Server = new DataGridViewTextBoxColumn();
             tableLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)serverListView).BeginInit();
             SuspendLayout();
             // 
             // addServerButton
@@ -54,30 +57,16 @@
             removeServerButton.UseVisualStyleBackColor = true;
             removeServerButton.Click += RemoveServerButton_Click;
             // 
-            // serverListBox
-            // 
-            serverListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            serverListBox.FormattingEnabled = true;
-            serverListBox.IntegralHeight = false;
-            serverListBox.ItemHeight = 15;
-            serverListBox.Location = new Point(3, 3);
-            serverListBox.Name = "serverListBox";
-            tableLayout.SetRowSpan(serverListBox, 4);
-            serverListBox.SelectionMode = SelectionMode.MultiExtended;
-            serverListBox.Size = new Size(477, 281);
-            serverListBox.TabIndex = 3;
-            serverListBox.Format += ServerListBox_Format;
-            // 
             // tableLayout
             // 
             tableLayout.ColumnCount = 2;
             tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayout.ColumnStyles.Add(new ColumnStyle());
             tableLayout.Controls.Add(removeServerButton, 1, 1);
-            tableLayout.Controls.Add(serverListBox, 0, 0);
             tableLayout.Controls.Add(addServerButton, 1, 0);
             tableLayout.Controls.Add(settingsButton, 1, 3);
             tableLayout.Controls.Add(hookButton, 1, 2);
+            tableLayout.Controls.Add(serverListView, 0, 0);
             tableLayout.Dock = DockStyle.Fill;
             tableLayout.Location = new Point(0, 0);
             tableLayout.Name = "tableLayout";
@@ -112,6 +101,45 @@
             hookButton.UseVisualStyleBackColor = true;
             hookButton.Click += HookButton_Click;
             // 
+            // serverListView
+            // 
+            serverListView.AllowUserToAddRows = false;
+            serverListView.AllowUserToDeleteRows = false;
+            serverListView.AllowUserToResizeRows = false;
+            serverListView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            serverListView.BackgroundColor = SystemColors.Window;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            serverListView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            serverListView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            serverListView.ColumnHeadersVisible = false;
+            serverListView.Columns.AddRange(new DataGridViewColumn[] { Server });
+            serverListView.EnableHeadersVisualStyles = false;
+            serverListView.GridColor = SystemColors.Control;
+            serverListView.Location = new Point(3, 3);
+            serverListView.Name = "serverListView";
+            serverListView.ReadOnly = true;
+            serverListView.RowHeadersVisible = false;
+            tableLayout.SetRowSpan(serverListView, 4);
+            serverListView.RowTemplate.Height = 20;
+            serverListView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            serverListView.Size = new Size(477, 281);
+            serverListView.TabIndex = 6;
+            serverListView.CellFormatting += ServerListView_CellFormatting;
+            // 
+            // Server
+            // 
+            Server.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Server.DataPropertyName = "DisplayName";
+            Server.HeaderText = "Server";
+            Server.Name = "Server";
+            Server.ReadOnly = true;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -123,15 +151,17 @@
             Text = "ACC Connector";
             tableLayout.ResumeLayout(false);
             tableLayout.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)serverListView).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
         private Button addServerButton;
         private Button removeServerButton;
-        private ListBox serverListBox;
         private TableLayoutPanel tableLayout;
         private Button settingsButton;
         private Button hookButton;
+        private DataGridView serverListView;
+        private DataGridViewTextBoxColumn Server;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Text;
 using Win32;
 
 namespace ACCConnector {
@@ -12,11 +11,14 @@ namespace ACCConnector {
             this.serverList = serverList;
             this.settings = settings;
             InitializeComponent();
-            serverListBox.DataSource = serverList;
+            serverListView.AutoGenerateColumns = false;
+            serverListView.DataSource = serverList;
             this.Text = "ACC Connector " + ProgramMain.GetMyVersion();
         }
 
         protected override void OnLoad(EventArgs e) {
+            serverListView.ClearSelection();
+
             User32.SetWindowLongPtr(Handle, User32.GWLP_USERDATA, Constants.TAG);
 
             base.OnLoad(e);
@@ -101,23 +103,9 @@ namespace ACCConnector {
         }
 
         private void RemoveServerButton_Click(object sender, EventArgs e) {
-            var toRemove = serverListBox.SelectedItems.OfType<ServerInfo>().ToList();
-            foreach (var i in toRemove) {
-                serverList.Remove(i);
+            foreach (DataGridViewRow row in serverListView.SelectedRows) {
+                serverList.Remove((ServerInfo)row.DataBoundItem);
             }
-        }
-
-        private void ServerListBox_Format(object sender, ListControlConvertEventArgs e) {
-            var item = (ServerInfo)e.ListItem!;
-            var sb = new StringBuilder();
-            if (item.Address == null) {
-                sb.Append('\u26a0');
-            }
-            if (item.Persistent) {
-                sb.Append('\u2605');
-            }
-            sb.Append(item.DisplayName);
-            e.Value = sb.ToString();
         }
 
         private void HookButton_Click(object sender, EventArgs e) {
@@ -127,6 +115,19 @@ namespace ACCConnector {
                 InstallHook();
             }
             UpdateHookButton();
+        }
+
+        private void ServerListView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+            var item = serverListView.Rows[e.RowIndex].DataBoundItem as ServerInfo;
+            if (item?.Address == null) {
+                e.CellStyle!.ForeColor = Color.Red;
+            }
+
+            if (e.ColumnIndex == Server.Index) {
+                if (item?.Persistent == true) {
+                    e.Value = "\u2605 " + e.Value;
+                }
+            }
         }
     }
 }
