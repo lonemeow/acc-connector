@@ -45,7 +45,6 @@ void handle_discovery(SOCKET s, DWORD id) {
         log_msg(L"CreateFileW(\"%s\") failed: 0x%x", NAMED_PIPE_NAME, GetLastError());
         return;
     }
-    log_msg(L"CreateFileW done");
 
     DWORD mode = PIPE_READMODE_MESSAGE;
     if (!SetNamedPipeHandleState(hPipe, &mode, NULL, NULL)) {
