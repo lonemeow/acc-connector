@@ -52,6 +52,8 @@ namespace ACCConnector {
 
         [STAThread]
         static void Main(string[] args) {
+            Logging.Init(Path.Join(GetMyFolder(), "logs"));
+
 #if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 #endif
@@ -80,7 +82,7 @@ namespace ACCConnector {
 
             IntPtr? openWindowHandle = FindAlreadyOpenWindow();
             if (openWindowHandle != null && serverToAdd != null) {
-                Trace.WriteLine($"Sending URI {serverToAdd} to window {openWindowHandle}");
+                Logging.Log(Logging.Severity.INFO, $"Sending URI {serverToAdd} to window {openWindowHandle}");
                 SendUriToWindow(openWindowHandle.Value, serverToAdd);
                 return;
             }
@@ -105,15 +107,17 @@ namespace ACCConnector {
                 while (true) {
                     try {
                         await npss.WaitForConnectionAsync(cancelSource.Token);
+                        Logging.Log(Logging.Severity.DEBUG, "Pipe connection request from hook DLL");
                         lock (serverDataLock) {
                             npss.Write(serverData);
                         }
                         npss.WaitForPipeDrain();
                         npss.Disconnect();
+                        Logging.Log(Logging.Severity.DEBUG, "Successfully sent server list to hook DLL");
                     } catch (OperationCanceledException) {
                         break;
                     } catch (Exception ex) {
-                        Trace.WriteLine($"Named pipe error: {ex.Message}");
+                        Logging.Log(Logging.Severity.ERROR, $"Named pipe error: {ex.Message}");
                     }
                 }
             });
@@ -172,7 +176,7 @@ namespace ACCConnector {
                 {ex.StackTrace}
                 """;
             MessageBox.Show(description, "ACC Connector has crashed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Debug.Write($"Unhandled exception:\n{description}");
+            Logging.Log(Logging.Severity.FATAL, $"Unhandled exception:\n{description}");
         }
 
         public static string GetMyVersion() {

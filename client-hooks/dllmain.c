@@ -5,6 +5,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpvReserved)
     switch (fdwReason)
     {
     case DLL_PROCESS_ATTACH:
+        initLog();
         log_msg(L"DLL attaching...");
         if (!initProxy()) {
             log_msg(L"Failed to initialize proxy DLL");
@@ -20,6 +21,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD fdwReason, LPVOID lpvReserved)
         log_msg(L"DLL detaching...");
         removeHooks();
         closeProxy();
+        closeLog();
         break;
 
     case DLL_THREAD_ATTACH:

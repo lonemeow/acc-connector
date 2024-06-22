@@ -10,3 +10,6 @@ void log_msg(const wchar_t* fmt, ...);
 
 BOOL initProxy();
 void closeProxy();
+
+void initLog();
+void closeLog();

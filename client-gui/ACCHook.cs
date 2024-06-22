@@ -16,8 +16,8 @@ namespace ACCConnector {
             var exeLocation = Path.GetDirectoryName(Path.GetFullPath(Application.ExecutablePath));
             foreach (var loc in HOOK_DLL_LOCATIONS) {
                 var dllLocation = Path.GetFullPath(Path.Combine([exeLocation!, .. loc]));
-                Trace.WriteLine($"Looking for hook DLL in {dllLocation}");
                 if (File.Exists(dllLocation)) {
+                    Logging.Log(Logging.Severity.DEBUG, $"Using hook DLL from {dllLocation}");
                     return dllLocation;
                 }
             }
@@ -42,7 +42,7 @@ namespace ACCConnector {
             bool found = false;
             if (!User32.EnumWindows(delegate (IntPtr hWnd, IntPtr lParam) {
                 if (IsACCWindow(hWnd)) {
-                    Trace.WriteLine("ACC window found");
+                    Logging.Log(Logging.Severity.DEBUG, $"ACC window found: {hWnd}");
                     found = true;
                 }
                 return true;
@@ -59,19 +59,19 @@ namespace ACCConnector {
         private static IEnumerable<string> FindSteamFolders() {
             using var steamSubKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Valve\\Steam");
             if (steamSubKey == null || steamSubKey.GetValue("InstallPath") is not string steamInstallPath) {
-                Trace.WriteLine("Steam install path not found in registry");
+                Logging.Log(Logging.Severity.ERROR, "Steam install path not found in registry");
                 return Enumerable.Empty<string>();
             }
-            Trace.WriteLine($"Steam installed in {steamInstallPath}");
+            Logging.Log(Logging.Severity.DEBUG, $"Steam installed in {steamInstallPath}");
 
             using var steamFolderReader = new StreamReader(Path.Join(steamInstallPath, "steamapps", "libraryfolders.vdf"), Encoding.UTF8);
             if (VDFSerializer.Deserialize(steamFolderReader).Item2 is not Dictionary<string, object> folderInfo) {
-                Trace.WriteLine("Could not parse Steam library folders");
+                Logging.Log(Logging.Severity.ERROR, "Could not parse Steam library folders");
                 return Enumerable.Empty<string>();
             }
             var steamFolders = from Dictionary<string, object> dict in folderInfo.Values
                                select dict["path"] as string;
-            Trace.WriteLine($"Steam library folders: {String.Join(", ", steamFolders)}");
+            Logging.Log(Logging.Severity.DEBUG, $"Steam library folders: {String.Join(", ", steamFolders)}");
             return steamFolders;
         }
 
@@ -79,10 +79,10 @@ namespace ACCConnector {
             foreach (var f in FindSteamFolders()) {
                 var accManifestPath = Path.Join(f, "steamapps", "appmanifest_805550.acf");
                 if (File.Exists(accManifestPath)) {
-                    Trace.WriteLine($"ACC appmanifest found in {accManifestPath}");
+                    Logging.Log(Logging.Severity.DEBUG, $"ACC appmanifest found in {accManifestPath}");
                     using var acfReader = new StreamReader(accManifestPath, Encoding.UTF8);
                     if (VDFSerializer.Deserialize(acfReader).Item2 is not Dictionary<string, object> accInfo) {
-                        Trace.WriteLine("Could not parse ACC appmanifest");
+                        Logging.Log(Logging.Severity.ERROR, "Could not parse ACC appmanifest");
                         break;
                     }
                     return Path.Join(f, "steamapps", "common", (string)accInfo["installdir"]);
@@ -99,7 +99,7 @@ namespace ACCConnector {
             if (IsHookInstalled(accInstallPath)) {
                 var myInfo = FileVersionInfo.GetVersionInfo(FindHookDLL());
                 var verInfo = FileVersionInfo.GetVersionInfo(InstallPathToDllPath(accInstallPath));
-                Trace.WriteLine($"Installed hook version: {verInfo.ProductVersion} my version {myInfo.ProductVersion}");
+                Logging.Log(Logging.Severity.INFO, $"Installed hook version: {verInfo.ProductVersion} my version {myInfo.ProductVersion}");
                 return myInfo.ProductVersion != verInfo.ProductVersion;
             }
             return false;
@@ -112,13 +112,13 @@ namespace ACCConnector {
         public static void RemoveHook(string accInstallPath) {
             var dllPath = InstallPathToDllPath(accInstallPath);
             File.Delete(InstallPathToDllPath(accInstallPath));
-            Trace.WriteLine($"Deleted hook DLL from {dllPath}");
+            Logging.Log(Logging.Severity.DEBUG, $"Deleted hook DLL from {dllPath}");
         }
 
         public static void InstallHook(string accInstallPath) {
             var dllPath = InstallPathToDllPath(accInstallPath);
             File.Copy(FindHookDLL(), dllPath, true);
-            Trace.WriteLine($"Copied hook DLL to {dllPath}");
+            Logging.Log(Logging.Severity.DEBUG, $"Copied hook DLL to {dllPath}");
         }
     }
 }
