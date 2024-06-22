@@ -39,7 +39,7 @@ namespace ACCConnector {
             try {
                 address = Dns.GetHostAddresses(hostname)[0];
             } catch (SocketException e) {
-                Trace.WriteLine($"Failed to resolve hostname \"{hostname}\": {e.Message}");
+                Logging.Log(Logging.Severity.ERROR, $"Failed to resolve hostname \"{hostname}\": {e.Message}");
             }
 
             return new ServerInfo(name, hostname, address, (ushort)port, persistent);
