@@ -35,6 +35,7 @@ namespace ACCConnector {
         private static Dictionary<string, object> KVDict(TextReader reader) {
             var dict = new Dictionary<string, object>();
             Consume('{', reader);
+            SkipWhitespace(reader);
             while (reader.Peek() != '}') {
                 SkipWhitespace(reader);
                 var key = QuotedString(reader);
@@ -42,6 +43,7 @@ namespace ACCConnector {
                 dict.Add(key, value);
                 SkipWhitespace(reader);
             }
+            Consume('}', reader);
             return dict;
         }
 
