@@ -52,11 +52,23 @@ namespace ACCConnector {
 
         [STAThread]
         static void Main(string[] args) {
-            Logging.Init(Path.Join(GetMyFolder(), "logs"));
-
 #if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 #endif
+
+            string? serverToAdd = null;
+            if (args.Length > 0) {
+                serverToAdd = args[0];
+            }
+
+            IntPtr? openWindowHandle = FindAlreadyOpenWindow();
+            if (openWindowHandle != null && serverToAdd != null) {
+                Logging.Log(Logging.Severity.DEBUG, $"Sending URI {serverToAdd} to window {openWindowHandle}");
+                SendUriToWindow(openWindowHandle.Value, serverToAdd);
+                return;
+            }
+
+            Logging.Init(Path.Join(GetMyFolder(), "logs"));
 
             var settings = Settings.Load();
             if (settings == null) {
@@ -72,20 +84,7 @@ namespace ACCConnector {
                 settings = new Settings { AccInstallPath = accPath };
             }
 
-
             ApplicationConfiguration.Initialize();
-
-            string? serverToAdd = null;
-            if (args.Length > 0) {
-                serverToAdd = args[0];
-            }
-
-            IntPtr? openWindowHandle = FindAlreadyOpenWindow();
-            if (openWindowHandle != null && serverToAdd != null) {
-                Logging.Log(Logging.Severity.INFO, $"Sending URI {serverToAdd} to window {openWindowHandle}");
-                SendUriToWindow(openWindowHandle.Value, serverToAdd);
-                return;
-            }
 
             var serverList = LoadServerList();
             var serverDataLock = new object();

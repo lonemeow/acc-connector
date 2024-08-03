@@ -33,7 +33,9 @@ namespace ACCConnector {
         private void HandleCopyData(User32.COPYDATASTRUCT copydata) {
             switch (copydata.dwData) {
                 case Constants.COPYDATA_SET_URI:
-                    AddFromURI(Marshal.PtrToStringUTF8(copydata.lpData, (int)copydata.cbData));
+                    var uri = Marshal.PtrToStringUTF8(copydata.lpData, (int)copydata.cbData);
+                    Logging.Log(Logging.Severity.DEBUG, $"Add URI request with payload {uri}");
+                    AddFromURI(uri);
                     break;
             }
 
