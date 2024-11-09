@@ -18,16 +18,54 @@ namespace ACCConnector {
 
         protected override void OnLoad(EventArgs e) {
             serverListView.ClearSelection();
-
             User32.SetWindowLongPtr(Handle, User32.GWLP_USERDATA, Constants.TAG);
-
             base.OnLoad(e);
             CheckHookVersion();
             UpdateHookButton();
         }
 
         private void AddFromURI(string uri) {
-            serverList.Add(ServerInfo.FromUri(new Uri(uri)));
+            var serverInfo = ServerInfo.FromUri(new Uri(uri));
+            AddOrUpdateServer(serverInfo);
+        }
+
+        private void AddOrUpdateServer(ServerInfo newServer) {
+            // Check for existing server with same IP:PORT
+            var existingServer = serverList.FirstOrDefault(s => s.Hostname == newServer.Hostname && s.Port == newServer.Port);
+
+            if (existingServer != null) {
+                // If names differ, prompt user to update
+                if (existingServer.Name != newServer.Name) {
+                    var msg = $"""
+                        A server with the IP address {newServer.Hostname}:{newServer.Port} already exists with name: {existingServer.Name}.
+                        Would you like to update the server name to "{newServer.Name}"?
+                        """;
+
+                    var result = MessageBox.Show(
+                        msg,
+                        "Update Server Name",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                    if (result == DialogResult.Yes) {
+                        // Remove old entry and add new server with updated name
+                        serverList.Remove(existingServer);
+                        serverList.Add(newServer); 
+                    }
+                } else {
+                    // If the server exists with the same name, show a message indicating it already exists
+                    MessageBox.Show(
+                        $"A server with the IP address {newServer.Hostname}:{newServer.Port} and name \"{existingServer.Name}\" already exists.",
+                        "Server Already Exists",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+            } else {
+                // Add new server if no duplicates
+                serverList.Add(newServer);
+            }
         }
 
         private void HandleCopyData(User32.COPYDATASTRUCT copydata) {
@@ -38,7 +76,6 @@ namespace ACCConnector {
                     AddFromURI(uri);
                     break;
             }
-
         }
 
         protected override void WndProc(ref Message m) {
@@ -90,7 +127,7 @@ namespace ACCConnector {
         private void AddServerButton_Click(object sender, EventArgs e) {
             using AddServerDialog addServerDialog = new();
             if (addServerDialog.ShowDialog() == DialogResult.OK) {
-                serverList.Add(addServerDialog.ServerInfo!);
+                AddOrUpdateServer(addServerDialog.ServerInfo!);
             }
         }
 
