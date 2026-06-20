@@ -83,11 +83,12 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(735, 404);
+            ClientSize = new Size(735, 150);
             Controls.Add(tableLayout);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "SettingsDialog";
             Text = "Settings";
+            StartPosition = FormStartPosition.CenterParent;
             tableLayout.ResumeLayout(false);
             ResumeLayout(false);
         }

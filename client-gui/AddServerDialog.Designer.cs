@@ -149,6 +149,7 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "AddServerDialog";
             Text = "Add server";
+            StartPosition = FormStartPosition.CenterParent;
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
             PerformLayout();

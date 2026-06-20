@@ -29,6 +29,8 @@
             tableLayout = new TableLayoutPanel();
             settingsButton = new Button();
             hookButton = new Button();
+            exitButton = new Button();
+            ac2Button= new Button();
             serverListView = new DataGridView();
             Server = new DataGridViewTextBoxColumn();
             tableLayout.SuspendLayout();
@@ -46,6 +48,17 @@
             addServerButton.UseVisualStyleBackColor = true;
             addServerButton.Click += AddServerButton_Click;
             // 
+            // ac2Button
+            // 
+            ac2Button.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ac2Button.Location = new Point(486, 200);   
+            ac2Button.Name = "ac2Button";
+            ac2Button.Size = new Size(75, 23);
+            ac2Button.TabIndex = 7;     
+            ac2Button.Text = "Open AC2";
+            ac2Button.UseVisualStyleBackColor = true;
+            ac2Button.Click += Ac2Button_Click;
+            // 
             // removeServerButton
             // 
             removeServerButton.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -62,18 +75,22 @@
             tableLayout.ColumnCount = 2;
             tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayout.ColumnStyles.Add(new ColumnStyle());
-            tableLayout.Controls.Add(removeServerButton, 1, 1);
             tableLayout.Controls.Add(addServerButton, 1, 0);
-            tableLayout.Controls.Add(settingsButton, 1, 3);
+            tableLayout.Controls.Add(removeServerButton, 1, 1);
             tableLayout.Controls.Add(hookButton, 1, 2);
+            tableLayout.Controls.Add(ac2Button, 1, 3);
+            tableLayout.Controls.Add(settingsButton, 1, 4);
+            tableLayout.Controls.Add(exitButton, 1, 5);
             tableLayout.Controls.Add(serverListView, 0, 0);
             tableLayout.Dock = DockStyle.Fill;
             tableLayout.Location = new Point(0, 0);
             tableLayout.Name = "tableLayout";
-            tableLayout.RowCount = 4;
+            tableLayout.RowCount = 5;
             tableLayout.RowStyles.Add(new RowStyle());
             tableLayout.RowStyles.Add(new RowStyle());
-            tableLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayout.RowStyles.Add(new RowStyle());
+            tableLayout.RowStyles.Add(new RowStyle());
             tableLayout.RowStyles.Add(new RowStyle());
             tableLayout.Size = new Size(564, 287);
             tableLayout.TabIndex = 4;
@@ -81,7 +98,7 @@
             // settingsButton
             // 
             settingsButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            settingsButton.Location = new Point(486, 261);
+            settingsButton.Location = new Point(486, 150);
             settingsButton.Name = "settingsButton";
             settingsButton.Size = new Size(75, 23);
             settingsButton.TabIndex = 4;
@@ -93,13 +110,24 @@
             // 
             hookButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             hookButton.AutoSize = true;
-            hookButton.Location = new Point(486, 215);
+            hookButton.Location = new Point(486, 100);
             hookButton.Name = "hookButton";
             hookButton.Size = new Size(75, 40);
             hookButton.TabIndex = 5;
             hookButton.Text = "Install\r\nhook\r\n";
             hookButton.UseVisualStyleBackColor = true;
             hookButton.Click += HookButton_Click;
+            // 
+            // exitButton
+            // 
+            exitButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            exitButton.Location = new Point(486, 200);
+            exitButton.Name = "exitButton";
+            exitButton.Size = new Size(75, 23);
+            exitButton.TabIndex = 6;
+            exitButton.Text = "Exit";
+            exitButton.UseVisualStyleBackColor = true;
+            exitButton.Click += ExitButton_Click;
             // 
             // serverListView
             // 
@@ -110,7 +138,7 @@
             serverListView.BackgroundColor = SystemColors.Window;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
@@ -125,8 +153,8 @@
             serverListView.Name = "serverListView";
             serverListView.ReadOnly = true;
             serverListView.RowHeadersVisible = false;
-            tableLayout.SetRowSpan(serverListView, 4);
-            serverListView.RowTemplate.Height = 20;
+            tableLayout.SetRowSpan(serverListView,6);
+            serverListView.RowTemplate.Height = 40;
             serverListView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             serverListView.Size = new Size(477, 281);
             serverListView.TabIndex = 6;
@@ -142,13 +170,17 @@
             // 
             // MainWindow
             // 
+            
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(564, 287);
             Controls.Add(tableLayout);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
+            this.Icon = new System.Drawing.Icon("ACC_Connector.ico");
             Name = "MainWindow";
             Text = "ACC Connector";
+            StartPosition = FormStartPosition.CenterScreen;
             tableLayout.ResumeLayout(false);
             tableLayout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)serverListView).EndInit();
@@ -158,9 +190,11 @@
         #endregion
         private Button addServerButton;
         private Button removeServerButton;
+        private Button ac2Button;
         private TableLayoutPanel tableLayout;
         private Button settingsButton;
         private Button hookButton;
+        private Button exitButton;
         private DataGridView serverListView;
         private DataGridViewTextBoxColumn Server;
     }

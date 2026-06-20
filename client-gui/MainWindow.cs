@@ -94,6 +94,29 @@ namespace ACCConnector {
             }
         }
 
+         private void ExitButton_Click(object sender, EventArgs e) {
+            Application.Exit();
+        }
+        private void Ac2Button_Click(object sender, EventArgs e) {
+            try
+            {
+                // Percorso standard di Steam per avviare Assetto Corsa Competizione tramite il suo ID gioco
+                string steamAppUri = "steam://rungameid/805550";
+        
+                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = steamAppUri,
+                    UseShellExecute = true // Necessario nei .NET più recenti per avviare i link o URI esterni
+                };
+
+                System.Diagnostics.Process.Start(psi);
+            }
+            catch (Exception ex)
+            {
+                // Se qualcosa va storto (es. Steam non è installato), mostra un messaggio di errore
+                MessageBox.Show("Impossibile avviare il gioco: " + ex.Message, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void SettingsButton_Click(object sender, EventArgs e) {
             var tempSettings = settings with { };
             using SettingsDialog settingsDialog = new(tempSettings);
